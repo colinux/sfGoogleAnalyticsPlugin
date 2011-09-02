@@ -47,6 +47,7 @@ abstract class sfGoogleAnalyticsTracker
     $cookieTimeout            = null,
     $cookiePath               = null,
     $vars                     = array(),
+    $customVars               = array(),
     $transaction              = null;
   
   public function __construct($context, $parameters = array())
@@ -453,7 +454,32 @@ abstract class sfGoogleAnalyticsTracker
   {
     return $this->vars;
   }
-  
+
+
+  /**
+   * Add a custom tracking variables to this cookie
+   * using the setCustomVar method (not for urchin)
+   *
+   * @param   int $slot The index of the var, between 1 - 5. A variable should always use the same slot.
+   * @param   string $name The name that identifies the custom variable
+   * @param   string $value The value of the var
+   * @param   int $scope An optional scope: 1 (visitor-level), 2 (session-level), or 3 (page-level). Default is page-level interaction
+   * @param   array $options
+   */
+  public function setCustomVar($slot, $name, $value, $scope = false, $options = array())
+  {
+    if ($this->prepare($value, $options))
+    {
+      $this->customVars[$slot] = array($name, $value, $scope);
+    }
+  }
+
+  public function getCustomVars()
+  {
+    return $this->customVars;
+  }
+
+
   /**
    * Set a path to limit the tracking cookie to.
    * 
