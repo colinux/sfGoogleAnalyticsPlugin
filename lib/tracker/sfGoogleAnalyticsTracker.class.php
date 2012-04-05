@@ -42,6 +42,8 @@ abstract class sfGoogleAnalyticsTracker
     $campaignContentKey       = null,
     $campaignIdKey            = null,
     $campaignNoOverrideKey    = null,
+    $trackPageLoadTime        = null,
+    $siteSpeedSampleRate      = null,
     $sampleRate               = null,
     $sessionTimeout           = null,
     $cookieTimeout            = null,
@@ -101,6 +103,7 @@ abstract class sfGoogleAnalyticsTracker
       'campaign_keys'               => null,
       'anchor_policy'               => null,
       'track_page_load_time'        => null,
+      'site_speed_sample_rate'      => null,
       'ignored_organics'            => null,
       'ignored_referers'            => null,
       'sample_rate'                 => null,
@@ -146,7 +149,11 @@ abstract class sfGoogleAnalyticsTracker
       $this->setAnchorPolicy($params['anchor_policy']);
     }
 
-    if (!is_null($params['track_page_load_time']))
+    if (!is_null($params['site_speed_sample_rate']))
+    {
+      $this->setSiteSpeedSampleRate($params['site_speed_sample_rate']);
+    }
+    elseif (!is_null($params['track_page_load_time']))
     {
       $this->setTrackPageLoadTime($params['track_page_load_time']);
     }
@@ -696,7 +703,8 @@ abstract class sfGoogleAnalyticsTracker
 
   /**
    * Track page load time or not.
-   * 
+   * It's deprecated, load time is always enable by GA. Check siteSpeedSampelRate().
+   *
    * @param   bool $enabled
    */
   public function setTrackPageLoadTime($enabled)
@@ -708,6 +716,24 @@ abstract class sfGoogleAnalyticsTracker
   {
     return $this->trackPageLoadTime;
   }
+
+
+  /**
+   * Sample set size for Site Speed data collection.
+   * This replaces the trackPageLoadTime.
+   *
+   * @param int $rate A number between 0 and 100
+   */
+  public function setSiteSpeedSampleRate($rate)
+  {
+    $this->siteSpeedSampleRate = (int) $rate;
+  }
+
+  public function getSiteSpeedSampleRate()
+  {
+    return $this->siteSpeedSampleRate;
+  }
+
 
   /**
    * Define an anchor policy.

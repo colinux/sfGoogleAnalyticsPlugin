@@ -163,7 +163,18 @@ class sfGoogleAnalyticsTrackerGoogle extends sfGoogleAnalyticsTracker
     {
       $html[] = $before;
     }
-    
+
+
+    if (!is_null($rate = $this->getSiteSpeedSampleRate()))
+    {
+      $html[] = sprintf('%s._setSiteSpeedSampleRate(%s);', $tracker, $rate);
+    }
+    elseif ($this->getTrackPageLoadTime())
+    {
+      $html[] = sprintf('%s._trackPageLoadTime();', $tracker);
+    }
+
+
     if ($pageName = $this->getPageName())
     {
       $html[] = sprintf('%s._trackPageview(%s);', $tracker, $this->escape($pageName));
@@ -173,10 +184,6 @@ class sfGoogleAnalyticsTrackerGoogle extends sfGoogleAnalyticsTracker
       $html[] = sprintf('%s._trackPageview();', $tracker);
     }
 
-    if ($this->getTrackPageLoadTime())
-    {
-      $html[] = sprintf('%s._trackPageLoadTime();', $tracker);
-    }
 
     foreach ($this->getVars() as $var)
     {

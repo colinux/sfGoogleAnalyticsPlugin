@@ -26,7 +26,8 @@
 #       cookie_timeout:             31536000  # six months
 #       campaign_keys:              { name: ~, source: ~, medium: ~, term: ~, content: ~, id: ~, no_override: ~ }
 #       anchor_policy:              false
-#       track_page_load_time:       false
+#       track_page_load_time:       false     # Deprecated in favor of site_speed_sample_rate (now always activated by GA)
+#       site_speed_sample_rate:     null      # 0 < x < 100. If not provided, by default GA fixes it at 1%
 #       ignored_organics:           []
 #       ignored_referers:           []
 #       sample_rate:                100       # 100%
