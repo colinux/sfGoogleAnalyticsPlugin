@@ -175,16 +175,6 @@ class sfGoogleAnalyticsTrackerGoogle extends sfGoogleAnalyticsTracker
     }
 
 
-    if ($pageName = $this->getPageName())
-    {
-      $html[] = sprintf('%s._trackPageview(%s);', $tracker, $this->escape($pageName));
-    }
-    else
-    {
-      $html[] = sprintf('%s._trackPageview();', $tracker);
-    }
-
-
     foreach ($this->getVars() as $var)
     {
       $html[] = sprintf('%s._setVar(%s);', $tracker, $this->escape($var));
@@ -198,6 +188,16 @@ class sfGoogleAnalyticsTrackerGoogle extends sfGoogleAnalyticsTracker
       else {
         $html[] = sprintf('%s._setCustomVar(%d, %s, %s);', $tracker, $slot, $this->escape($var[0]), $this->escape($var[1]));
       }
+    }
+
+
+    if ($pageName = $this->getPageName())
+    {
+      $html[] = sprintf('%s._trackPageview(%s);', $tracker, $this->escape($pageName));
+    }
+    else
+    {
+      $html[] = sprintf('%s._trackPageview();', $tracker);
     }
 
 
